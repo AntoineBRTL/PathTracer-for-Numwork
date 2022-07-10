@@ -17,7 +17,7 @@ class PathTracer:
     imageWidth = 320
     imageHeight = 240
 
-    samplePerPixel = 1
+    samplePerPixel = 100
 
 class Vec3:
     def __init__(self, x, y, z):
@@ -183,9 +183,9 @@ class Camera:
                 b /= PathTracer.samplePerPixel
 
                 kandColor = kandinsky.color(
-                    max(min(round(math.sqrt(color.x) * 255), 255), 0), 
-                    max(min(round(math.sqrt(color.y) * 255), 255), 0), 
-                    max(min(round(math.sqrt(color.z) * 255), 255), 0)
+                    round(math.sqrt(r) * 255), 
+                    round(math.sqrt(g) * 255), 
+                    round(math.sqrt(b) * 255)
                 )
 
                 kandinsky.fill_rect(x, y, 1, 1, kandColor)
@@ -205,6 +205,7 @@ class Camera:
         #return normal.add(Vec3(1, 1, 1)).scale(1/2)
 
         bounceRay = Ray(hitWorld.point, hitWorld.sphere.material.getScatterDirection(normal, ray.direction))
+        del ray
         return self.getColor(x, y, bounceRay, world, depth - 1).mult(hitWorld.sphere.material.color)
 
 class Main:
