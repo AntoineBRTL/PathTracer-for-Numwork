@@ -16,6 +16,12 @@ Depending on your system change PathTracer.pixelShift
 
 ![img](outputs/2.PNG)
 
-Final Image using 100 samples in like 10 minutes on pc:
+Final Image using 100 samples in like 10 minutes on pc :
 
 ![img](outputs/3.PNG)
+
+Let test it on a real numwork : 
+
+![img](outputs/demo.jpg)
+
+It worked but only using low resolution for now ...
