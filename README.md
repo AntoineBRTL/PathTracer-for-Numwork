@@ -14,5 +14,6 @@ It seems like it's not running on Numwork it self (I was using an emulator), so 
 
 ![img](outputs/2.PNG)
 
-Final Image using 100 samples in like 10 minutes on pc
+Final Image using 100 samples in like 10 minutes on pc:
+
 ![img](outputs/3.PNG)
