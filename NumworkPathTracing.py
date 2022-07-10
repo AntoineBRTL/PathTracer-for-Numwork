@@ -57,6 +57,9 @@ class Vec3:
 
             return rand
 
+    def reflect(self, normal):
+        return self.add(normal.scale(-2 * self.dot(normal)))
+
 
 class Ray:
     def __init__(self, origin:Vec3, direction:Vec3):
@@ -76,6 +79,15 @@ class Diffuse(Material):
 
     def getScatterDirection(self, normal:Vec3, direction:Vec3):
         return normal.add(Vec3.randomInUnitSphere()).normalize()
+
+class Metal(Material):
+    def __init__(self, color:Vec3, fuzz:float):
+        super().__init__(color)
+
+        self.fuzz = fuzz
+
+    def getScatterDirection(self, normal:Vec3, direction:Vec3):
+        return Vec3.randomInUnitSphere().scale(self.fuzz).add(direction.reflect(normal)).normalize()
 
 class Sphere:
     def __init__(self, position:Vec3, radius:float, material):
@@ -130,7 +142,7 @@ class World:
     def getSky(self, x:int, y:int):
         ratio = y / PathTracer.imageHeight
 
-        return Vec3(1, 1, 1).scale(1.0 - ratio).add(Vec3(0.5, 0.7, 1.0)).scale(ratio)
+        return Vec3(1, 1, 1).scale(1.0 - ratio).add(Vec3(0.5, 0.7, 1.0).scale(ratio))
 
 class Camera:
     def __init__(self, position:Vec3):
@@ -162,18 +174,18 @@ class Camera:
                     color = self.getColor(u, v, ray, world, 50)
 
                     # gamma correction
-                    r += math.sqrt(color.x)
-                    g += math.sqrt(color.y)
-                    b += math.sqrt(color.z)
+                    r += color.x
+                    g += color.y
+                    b += color.z
 
                 r /= PathTracer.samplePerPixel
                 g /= PathTracer.samplePerPixel
                 b /= PathTracer.samplePerPixel
 
                 kandColor = kandinsky.color(
-                    max(min(round(color.x * 255), 255), 0), 
-                    max(min(round(color.y * 255), 255), 0), 
-                    max(min(round(color.z * 255), 255), 0)
+                    max(min(round(math.sqrt(color.x) * 255), 255), 0), 
+                    max(min(round(math.sqrt(color.y) * 255), 255), 0), 
+                    max(min(round(math.sqrt(color.z) * 255), 255), 0)
                 )
 
                 kandinsky.fill_rect(x, y, 1, 1, kandColor)
@@ -200,10 +212,12 @@ class Main:
 
         world = World()
 
-        sphere = Sphere(Vec3(0, 0, -5), 0.5, Diffuse(Vec3(0.7, 0.3, 0.3)))
-        floor = Sphere(Vec3(0, -100.5, -5), 100, Diffuse(Vec3(0.5, 0.5, 0.5)))
+        sphere = Sphere(Vec3(-1, 0, -10), 0.5, Diffuse(Vec3(0.7, 0.3, 0.3)))
+        sphere1 = Sphere(Vec3(0, 0, -10), 0.5, Metal(Vec3(0.5, 0.5, 0.5), 0.0))
+        sphere2 = Sphere(Vec3(1, 0, -10), 0.5, Diffuse(Vec3(0.7, 0.3, 0.3)))
+        floor = Sphere(Vec3(0, -100.5, -10), 100, Diffuse(Vec3(0.5, 0.5, 0.5)))
 
-        world.add([sphere, floor])
+        world.add([sphere, sphere1, sphere2, floor])
 
         camera = Camera(Vec3(0, 0, 0))
         camera.render(world)
