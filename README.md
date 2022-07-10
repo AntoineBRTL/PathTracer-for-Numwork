@@ -8,6 +8,8 @@ maths class, it will takes a long long time ahha
 
 It seems like it's not running on Numwork it self (I was using an emulator), so I've min the script using https://python-minifier.com/
 
+Depending on your system change PathTracer.pixelShift
+
 ## Exemples ## 
 
 ![img](outputs/1.PNG)

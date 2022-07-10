@@ -14,10 +14,13 @@ class Utils:
         return random.uniform(min, max)
 
 class PathTracer:
-    imageWidth = 320
-    imageHeight = 240
 
-    samplePerPixel = 100
+    pixelShift = 2
+
+    imageWidth = int(320/pixelShift)
+    imageHeight = int(240/pixelShift)
+
+    samplePerPixel = 1
 
 class Vec3:
     def __init__(self, x, y, z):
@@ -161,8 +164,8 @@ class Camera:
 
                 for sample in range(PathTracer.samplePerPixel):
 
-                    u = x + (sample / PathTracer.imageWidth)
-                    v = invertY + (sample / PathTracer.imageHeight)
+                    u = (x + (sample / PathTracer.imageWidth))
+                    v = (invertY + (sample / PathTracer.imageHeight))
 
                     direction = Vec3(
                         (u - PathTracer.imageWidth/2) / PathTracer.imageHeight, 
@@ -188,7 +191,7 @@ class Camera:
                     round(math.sqrt(b) * 255)
                 )
 
-                kandinsky.fill_rect(x, y, 1, 1, kandColor)
+                kandinsky.fill_rect(x * PathTracer.pixelShift, y * PathTracer.pixelShift, PathTracer.pixelShift, PathTracer.pixelShift, kandColor)
 
     def getColor(self, x:int, y:int, ray:Ray, world:World, depth:int):
         hitWorld = world.hit(ray)
