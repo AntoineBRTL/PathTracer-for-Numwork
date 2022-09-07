@@ -1,14 +1,16 @@
-# Path-Tracer For Numwork #
+# Path-Tracer For Numworks #
 
-Hey ! This program is a path-tracer engine for Numwork
-It creates nice image on your calculator
+Simple Path-Tracer for Numworks made for fun.
 
-but, do not expect to make a render during your
-maths class, it will takes a long long time ahha
+## How To Use ##
 
-It seems like it's not running on Numwork it self (I was using an emulator), so I've min the script using https://python-minifier.com/
+This program has been developped in python using an emulator on windows, that's why you will probably need to [minimified](https://python-minifier.com/) it.
+You may also change ```PathTracer.pixelShift```.
 
-Depending on your system change PathTracer.pixelShift
+1. run ```git clone https://github.com/AntoineBRTL/PathTracer-for-Numwork.git .```
+2. plug a Numworks to your pc.
+3. connect [Numworks website](https://www.numworks.com/).
+4. go to your script and add NumworkPathTracing.py to them
 
 ## Exemples ## 
 
